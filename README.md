@@ -49,6 +49,17 @@ node --test src/test/js/*.test.cjs
 
 Windows에서는 `./gradlew` 대신 `gradlew.bat`을 사용합니다.
 
+## Netlify 배포
+
+이 프로젝트는 Spring MVC로 화면을 제공하지만, MBTI 계산과 결과 저장은 브라우저에서 처리됩니다. 따라서 Netlify에서는 Java 서버 없이 동일한 HTML, CSS, JavaScript 및 이미지로 정적 웹 버전을 배포할 수 있습니다. Spring Boot 실행 방법은 그대로 유지됩니다.
+
+```bash
+node --test src/test/js/*.test.cjs
+node scripts/build-netlify.cjs
+```
+
+빌드 후 `dist/netlify`에 배포용 정적 파일이 생성됩니다. `netlify.toml`은 빌드 명령, 배포 폴더 및 `/question`, `/result` 페이지 경로를 관리합니다. GitHub PR의 Deploy Preview에서 먼저 확인하고, `main` 병합 후 운영 배포에 반영합니다.
+
 ## 프로젝트 구조
 
 ```text
