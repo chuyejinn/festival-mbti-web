@@ -1,0 +1,17 @@
+[build]
+  base = "."
+  command = "node --test src/test/js/*.test.cjs && node scripts/build-netlify.cjs"
+  publish = "dist/netlify"
+
+  [build.environment]
+    NODE_VERSION = "22"
+
+[[redirects]]
+  from = "/question"
+  to = "/question.html"
+  status = 200
+
+[[redirects]]
+  from = "/result"
+  to = "/result.html"
+  status = 200
