@@ -44,8 +44,8 @@ Windows에서는 `gradlew.bat bootRun`을 실행합니다.
 node --test src/test/js/*.test.cjs
 ```
 
-- Java 테스트: Spring 컨텍스트 및 화면 경로 동작 검증 (`build/reports/tests/test/index.html`에서 결과 확인)
-- JavaScript 테스트: MBTI 점수 집계, 동점 처리, 8문항 응답 흐름 및 결과 데이터 검증 (Node.js 20 이상, 별도 패키지 설치 불필요)
+- Java 테스트: Spring 컨텍스트, 화면 경로, 정적 리소스 응답 검증 (`build/reports/tests/test/index.html`에서 결과 확인)
+- JavaScript 테스트: MBTI 점수 집계, 동점 처리, 8문항 응답 흐름, 16가지 결과 데이터 및 결과 화면 표시 검증 (Node.js 20 이상, 별도 패키지 설치 불필요)
 
 Windows에서는 `./gradlew` 대신 `gradlew.bat`을 사용합니다.
 
@@ -57,11 +57,24 @@ src/
 │   ├── java/com/example/mbtitest/   # Spring Boot 및 컨트롤러
 │   └── resources/
 │       ├── templates/            # 소개, 질문, 결과 화면
-│       └── static/               # CSS, JavaScript, 유형 이미지
+│       └── static/               # CSS, 유형 이미지
+│           └── js/               # 질문/결과 데이터, 계산 로직, 화면 처리
 └── test/
     ├── java/                     # Spring Boot 테스트
     └── js/                       # MBTI 로직 테스트
 ```
+
+JavaScript 코드는 역할별로 분리되어 있습니다.
+
+| 파일 | 역할 |
+| --- | --- |
+| `question-data.js` | 8개 문항 및 선택지 데이터 |
+| `mbti-scoring.js` | 답변 점수 집계와 MBTI 유형 계산 (DOM 의존성 없음) |
+| `question.js` | 질문 렌더링, 응답 진행, 결과 저장 |
+| `result-data.js` | 16가지 유형 및 추천 궁합 데이터 |
+| `result.js` | 결과 화면과 궁합 카드 표시 |
+
+동점인 경우 기존 서비스와 동일하게 각 지표의 첫 번째 유형(E/S/T/J)을 선택합니다.
 
 ## Project Background
 강남대학교 축제 부스 운영을 위해 제작된 웹 서비스로  
